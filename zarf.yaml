@@ -35,11 +35,19 @@ components:
       target: zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
   actions:
     onDeploy:
-      after: ###ZARF_PKG_VAR_BIGBANG_VERSION###
+      after: 
         - cmd: zarf package deploy zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst --components git-server --confirm -l warn
 # - name: gpus
 - name: metallb
   required: true
+  files:
+  - source: scripts/metallb.sh
+    target: metallb.sh
+    executable: true
+  actions:
+    onDeploy:
+      after:
+        - cmd: ./metallb.sh
   manifests:
     - name: metallb
       files:
