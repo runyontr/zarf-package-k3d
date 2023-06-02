@@ -12,7 +12,7 @@ metadata:
 
 variables:
   - name: ZARF_VERSION
-    default: v0.26.1
+    default: v0.27.0
 
 components:
 - name: k3d
@@ -31,12 +31,23 @@ components:
 - name: init
   required: true
   files:
-    - source: https://github.com/defenseunicorns/zarf/releases/download/###ZARF_PKG_TMPL_ZARF_VERSION###/zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
-      target: zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
+    - source: zarf-init-amd64-v0.27.0.tar.zst
+      target: zarf-init-amd64-v0.27.0.tar.zst
   actions:
     onDeploy:
       after: 
-        - cmd: zarf package deploy zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst --components git-server --confirm -l warn
+        - cmd: zarf package deploy zarf-init-amd64-v0.27.0.tar.zst --components git-server --confirm -l warn
+
+# This doesnt work with skeletons...
+# - name: init2
+#   required: true
+#   files:
+#     - source: https://github.com/defenseunicorns/zarf/releases/download/###ZARF_PKG_TMPL_ZARF_VERSION###/zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
+#       target: zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
+#   actions:
+#     onDeploy:
+#       after: 
+#         - cmd: zarf package deploy zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst --components git-server --confirm -l warn
 # - name: gpus
 - name: metallb
   required: true
