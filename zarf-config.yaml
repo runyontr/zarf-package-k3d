@@ -1,5 +1,11 @@
 package:
   create: 
     set:
-      zarf_version: v0.26.1
+      zarf_version: v0.27.1
+      dubbd_version: 0.3.0
     max_package_size: "1000000000"
+  # this gets used for all the deploys, so its wierd
+  deploy:
+    key_file: leapfrogai.bigbang.dev.key
+    cert_file: leapfrogai.bigbang.dev.cert
+    domain: leapfrogai.bigbang.dev

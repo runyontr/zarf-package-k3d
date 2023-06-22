@@ -3,7 +3,7 @@ kind: ZarfPackageConfig
 metadata:
   name: k3d-local
   description: "Defense Unicorns K3D environment"
-  version: "v1.26.0"
+  version: "v1.27.2"
   # Big Bang / Iron Bank are only amd64
   architecture: amd64
   authors: "@runyontr"
@@ -12,7 +12,9 @@ metadata:
 
 variables:
   - name: ZARF_VERSION
-    default: v0.27.0
+    default: v0.27.1
+  - name: DUBBD_VERSION
+    default: 0.3.0
 
 components:
 - name: k3d
@@ -31,38 +33,24 @@ components:
 - name: init
   required: true
   files:
-    - source: zarf-init-amd64-v0.27.0.tar.zst
-      target: zarf-init-amd64-v0.27.0.tar.zst
+    - source: zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
+      target: zarf-init.tar.zst
   actions:
+    onCreate:
+      before:
+      - cmd: zarf tools download-init
     onDeploy:
       after: 
-        - cmd: zarf package deploy zarf-init-amd64-v0.27.0.tar.zst --components git-server --confirm -l warn
-
-# This doesnt work with skeletons...
-# - name: init2
-#   required: true
-#   files:
-#     - source: https://github.com/defenseunicorns/zarf/releases/download/###ZARF_PKG_TMPL_ZARF_VERSION###/zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
-#       target: zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst
-#   actions:
-#     onDeploy:
-#       after: 
-#         - cmd: zarf package deploy zarf-init-amd64-###ZARF_PKG_TMPL_ZARF_VERSION###.tar.zst --components git-server --confirm -l warn
-# - name: gpus
-- name: metallb
+        - cmd: zarf package deploy zarf-init.tar.zst --components git-server --confirm -l warn --set registry_pvc_size=100Gi
+- name: bigbang
   required: true
   files:
-  - source: scripts/metallb.sh
-    target: metallb.sh
-    executable: true
+  - source: zarf-package-dubbd-k3d-amd64-###ZARF_PKG_TMPL_DUBBD_VERSION###.tar.zst
+    target: zarf-package-dubbd-k3d-amd64-###ZARF_PKG_TMPL_DUBBD_VERSION###.tar.zst
   actions:
+    onCreate:
+      before:
+      - cmd: zarf package pull oci://ghcr.io/defenseunicorns/packages/dubbd-k3d:###ZARF_PKG_TMPL_DUBBD_VERSION###-amd64
     onDeploy:
       after:
-        - cmd: ./metallb.sh
-  manifests:
-    - name: metallb
-      files:
-        - manifests/metallb/metallb-native.yaml
-  images:
-  - "quay.io/metallb/controller:v0.13.9"
-  - quay.io/metallb/speaker:v0.13.9
+      - cmd: zarf package deploy zarf-package-dubbd-k3d-amd64-###ZARF_PKG_TMPL_DUBBD_VERSION###.tar.zst --confirm
