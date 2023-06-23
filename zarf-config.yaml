@@ -6,7 +6,9 @@ package:
     max_package_size: "1000000000"
   # this gets used for all the deploys, so its wierd
   deploy:
-    key_file: leapfrogai.bigbang.dev.key
-    cert_file: leapfrogai.bigbang.dev.cert
-    domain: leapfrogai.bigbang.dev
-    approved_registries: "ghcr.io/runyontr/* | ghcr.io/defenseunicorns/* | nvcr.io/nvidia/k8s/* | semitechnologies/*"
+    set:
+      # these get used in the BigBang deployement
+      key_file: leapfrogai.bigbang.dev.key
+      cert_file: leapfrogai.bigbang.dev.cert
+      domain: leapfrogai.bigbang.dev
+      approved_registries: "ghcr.io/runyontr/* | ghcr.io/defenseunicorns/* | nvcr.io/nvidia/k8s/* | semitechnologies/*"
