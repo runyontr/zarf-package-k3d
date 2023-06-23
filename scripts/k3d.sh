@@ -12,7 +12,7 @@ else
     --k3s-arg "--disable=metrics-server@server:0" \
     --port 443:443@loadbalancer \
     --port 80:8080@loadbalancer \
-    --image ghcr.io/runyontr/packages/rancher/k3s:v1.25.7-k3s1-cuda \
+    --image ghcr.io/runyontr/packages/rancher/k3s:v1.27.2-k3s1-cuda \
     --gpus=2 \
     dubbd
 fi

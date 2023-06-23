@@ -9,3 +9,4 @@ package:
     key_file: leapfrogai.bigbang.dev.key
     cert_file: leapfrogai.bigbang.dev.cert
     domain: leapfrogai.bigbang.dev
+    approved_registries: "ghcr.io/runyontr/* | ghcr.io/defenseunicorns/* | nvcr.io/nvidia/k8s/* | semitechnologies/*"
