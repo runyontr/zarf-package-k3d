@@ -53,4 +53,4 @@ components:
       - cmd: zarf package pull oci://ghcr.io/defenseunicorns/packages/dubbd-k3d:###ZARF_PKG_TMPL_DUBBD_VERSION###-amd64
     onDeploy:
       after:
-      - cmd: zarf package deploy zarf-package-dubbd-k3d-amd64-###ZARF_PKG_TMPL_DUBBD_VERSION###.tar.zst --confirm
+      - cmd: zarf package deploy --confirm zarf-package-dubbd-k3d-amd64-###ZARF_PKG_TMPL_DUBBD_VERSION###.tar.zst 
